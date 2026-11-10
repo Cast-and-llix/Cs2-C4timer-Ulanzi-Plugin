@@ -1,5 +1,6 @@
 # Cs2-C4timer-Ulanzi-Plugin
  First off all, I'm not a dev, I'm just a player that developed it with AI help.
+ https://cast-and-llix.github.io/Cs2-C4timer-Ulanzi-Plugin/
  
  A Ulanzi Studio plugin that turns one D200 key into a Counter-Strike 2 C4 timer. 
 
