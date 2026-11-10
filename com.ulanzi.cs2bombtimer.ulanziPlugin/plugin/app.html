@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CS2 Bomb Timer - main service</title>
+  <style>
+    html, body {
+      font-family: 'Source Han Sans SC', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ulanzi common-html SDK (timers.js swaps in worker-backed timers so the hidden page is not throttled) -->
+  <script src="../libs/js/constants.js"></script>
+  <script src="../libs/js/eventEmitter.js"></script>
+  <script src="../libs/js/timers.js"></script>
+  <script src="../libs/js/utils.js"></script>
+  <script src="../libs/js/ulanziApi.js"></script>
+
+  <script src="./actions/bombLogic.js"></script>
+  <script src="./actions/bombRenderer.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

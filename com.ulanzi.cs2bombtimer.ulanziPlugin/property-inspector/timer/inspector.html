@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <title>CS2 Bomb Timer</title>
+  <link rel="stylesheet" href="../../libs/css/uspi.css">
+  <style>
+    .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; background: #777; }
+    .status-dot.on { background: #2ecc71; }
+    .status-dot.off { background: #ff4d4d; }
+    .hint { font-size: 11px; opacity: .7; padding: 4px 0 0; }
+  </style>
+</head>
+<body>
+  <div class="uspi-wrapper hidden">
+    <form id="property-inspector">
+      <div class="uspi-item">
+        <div class="uspi-item-label" data-localize>Backend URL</div>
+        <input class="uspi-item-value" type="text" name="backendUrl" value="http://127.0.0.1:3000/state">
+      </div>
+      <div class="uspi-item">
+        <div class="uspi-item-label" data-localize>Bomb time (s)</div>
+        <input class="uspi-item-value" type="number" min="1" max="120" step="1" name="bombTime" value="40">
+      </div>
+      <div class="uspi-item">
+        <div class="uspi-item-label" data-localize>Result display (s)</div>
+        <input class="uspi-item-value" type="number" min="0" max="30" step="0.5" name="resultHold" value="4">
+      </div>
+    </form>
+
+    <div class="uspi-item">
+      <div class="uspi-item-label" data-localize>Status</div>
+      <div class="uspi-item-value"><span id="dot" class="status-dot"></span><span id="status">…</span></div>
+    </div>
+    <div class="hint" data-localize>Press the key to start/stop a manual test countdown.</div>
+  </div>
+
+  <script src="../../libs/js/constants.js"></script>
+  <script src="../../libs/js/eventEmitter.js"></script>
+  <script src="../../libs/js/timers.js"></script>
+  <script src="../../libs/js/utils.js"></script>
+  <script src="../../libs/js/ulanziApi.js"></script>
+  <script src="./inspector.js"></script>
+</body>
+</html>

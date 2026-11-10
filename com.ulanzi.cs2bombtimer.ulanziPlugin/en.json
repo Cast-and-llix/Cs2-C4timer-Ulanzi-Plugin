@@ -1,0 +1,17 @@
+{
+  "Name": "CS2 Bomb Timer",
+  "Description": "Counter-Strike 2 C4 countdown driven by Game State Integration.",
+  "Actions": [
+    {
+      "Name": "Bomb Timer",
+      "Tooltip": "Shows the CS2 bomb countdown. Press to start/stop a manual 40 s test countdown."
+    }
+  ],
+  "Localization": {
+    "Backend URL": "Backend URL",
+    "Bomb time (s)": "Bomb time (s)",
+    "Result display (s)": "Result display (s)",
+    "Status": "Status",
+    "Press the key to start/stop a manual test countdown.": "Press the key to start/stop a manual test countdown."
+  }
+}

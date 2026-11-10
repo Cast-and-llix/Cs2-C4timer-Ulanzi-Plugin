@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CS2 Bomb Timer - key preview</title>
+  <style>
+    body { background: #1e1f22; color: #ddd; font-family: system-ui, sans-serif; margin: 20px; }
+    h1 { font-size: 18px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 18px; }
+    figure { margin: 0; text-align: center; }
+    figure img { width: 144px; height: 144px; border-radius: 18px; display: block; box-shadow: 0 0 0 2px #333; }
+    figcaption { font-size: 12px; margin-top: 6px; opacity: .8; }
+    #live { margin-top: 26px; }
+    button { margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <h1>CS2 Bomb Timer – every key state (rendered with the plugin's own renderer)</h1>
+  <div class="grid" id="grid"></div>
+
+  <div id="live">
+    <h1>Live: polls <code id="url"></code> exactly like the plugin</h1>
+    <figure><img id="liveImg" alt="live key"><figcaption id="liveCap"></figcaption></figure>
+    <p><button id="press">Simulate key press (manual 40 s)</button></p>
+  </div>
+
+  <script src="../com.ulanzi.cs2bombtimer.ulanziPlugin/plugin/actions/bombLogic.js"></script>
+  <script src="../com.ulanzi.cs2bombtimer.ulanziPlugin/plugin/actions/bombRenderer.js"></script>
+  <script>
+    const r = new BombRenderer();
+    const states = [
+      ['idle', { mode: 'idle', phase: 'idle', label: 'READY', fraction: 1, flashOn: true }],
+      ['bomb 40', { mode: 'countdown', phase: 'bomb', label: 'BOMB', seconds: 40, fraction: 1, flashOn: true }],
+      ['bomb 23', { mode: 'countdown', phase: 'bomb', label: 'BOMB', seconds: 23, fraction: 23 / 40, flashOn: true }],
+      ['kit only 8', { mode: 'countdown', phase: 'kit_only', label: 'KIT ONLY', seconds: 8, fraction: 8 / 40, flashOn: true }],
+      ['too late 3 (on)', { mode: 'countdown', phase: 'too_late', label: 'TOO LATE', seconds: 3, fraction: 3 / 40, flashOn: true }],
+      ['too late 3 (off)', { mode: 'countdown', phase: 'too_late', label: 'TOO LATE', seconds: 3, fraction: 3 / 40, flashOn: false }],
+      ['manual 31', { mode: 'countdown', phase: 'bomb', label: 'BOMB', seconds: 31, fraction: 31 / 40, flashOn: true, manual: true }],
+      ['defused', { mode: 'defused', phase: 'defused', label: 'DEFUSED', fraction: 1, flashOn: true }],
+      ['boom', { mode: 'exploded', phase: 'exploded', label: 'BOOM', fraction: 1, flashOn: true }],
+      ['offline', { mode: 'offline', phase: 'offline', label: 'OFFLINE', fraction: 1, flashOn: true }]
+    ];
+    window.KEY_IMAGES = {};
+    const grid = document.getElementById('grid');
+    for (const [name, v] of states) {
+      const url = r.draw(v);
+      window.KEY_IMAGES[name] = url;
+      grid.insertAdjacentHTML('beforeend', `<figure><img src="${url}" alt="${name}"><figcaption>${name}</figcaption></figure>`);
+    }
+
+    // Live mode: same model + poll loop as plugin/app.js
+    const STATE_URL = new URLSearchParams(location.search).get('url') || 'http://127.0.0.1:3000/state';
+    document.getElementById('url').textContent = STATE_URL;
+    const model = new BombLogic.BombTimerModel();
+    let lastSig = null, redraws = 0;
+    async function poll() {
+      try {
+        const res = await fetch(STATE_URL, { cache: 'no-store' });
+        model.onPollSuccess(await res.json(), Date.now());
+      } catch (e) { model.onPollFailure(Date.now()); }
+    }
+    setInterval(poll, 200); poll();
+    setInterval(() => {
+      const v = model.view(Date.now());
+      const sig = BombLogic.viewSignature(v);
+      if (sig === lastSig) return;
+      lastSig = sig; redraws++;
+      document.getElementById('liveImg').src = r.draw(v);
+      document.getElementById('liveCap').textContent = `${v.label}${v.seconds != null ? ' ' + v.seconds : ''} · redraws: ${redraws}`;
+    }, 50);
+    document.getElementById('press').onclick = () => model.toggleManual(Date.now());
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "Author": "CS2 Bomb Timer",
+  "Name": "CS2 Bomb Timer",
+  "Description": "Counter-Strike 2 C4 countdown driven by Game State Integration. Shrinking ring, BOMB / KIT ONLY / TOO LATE states.",
+  "Icon": "assets/icons/icon.png",
+  "Version": "1.0.0",
+  "Category": "CS2 Bomb Timer",
+  "CategoryIcon": "assets/icons/categoryIcon.png",
+  "CodePath": "plugin/app.html",
+  "Type": "JavaScript",
+  "UUID": "com.ulanzi.ulanzistudio.cs2bombtimer",
+  "Actions": [
+    {
+      "Name": "Bomb Timer",
+      "Icon": "assets/icons/actionIcon.png",
+      "PropertyInspectorPath": "property-inspector/timer/inspector.html",
+      "state": 0,
+      "States": [
+        { "Name": "Ready", "Image": "assets/icons/ready.png" }
+      ],
+      "Tooltip": "Shows the CS2 bomb countdown. Press to start/stop a manual 40 s test countdown.",
+      "UUID": "com.ulanzi.ulanzistudio.cs2bombtimer.timer",
+      "SupportedInMultiActions": false,
+      "DisableAutomaticStates": true,
+      "Controllers": ["Keypad"],
+      "Devices": []
+    }
+  ],
+  "OS": [
+    { "Platform": "windows", "MinimumVersion": "10" },
+    { "Platform": "mac", "MinimumVersion": "10.11" }
+  ],
+  "Software": {
+    "MinVersion": "2.1.4"
+  }
+}
