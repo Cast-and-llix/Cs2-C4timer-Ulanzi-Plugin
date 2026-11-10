@@ -141,7 +141,7 @@ That works too. It just needs to send **`Access-Control-Allow-Origin: *`** on `/
 **Backend.** CS2 reports `round.bomb = planted / defused / exploded` to players, but not the countdown itself. The backend notes the moment of the plant and counts 40 s from there. If CS2 does send a countdown (`bomb.countdown` when spectating or on GOTV, or `phase_countdowns.phase == "bomb"`), the backend re-syncs to it. If the timer reaches 0 and no `exploded` event arrives within 2.5 s, the bomb is assumed to have exploded. When the next round starts (bomb gone from `round`), the state goes back to `idle`. The cfg uses `buffer 0` so the plant is sent immediately.
 
 **Plugin.**
-- It polls every 200 ms. Each request times out after 800 ms, and a new one is never started while the previous one is still waiting.
+- It polls every 80 ms. Each request times out after 400 ms, and a new one is never started while the previous one is still waiting.
 - Between polls it estimates the time left from the last value it received.
 - The key image is only re-sent to the deck when what's shown changes: the number, the phase or the flash frame. A whole round takes about 45 image updates.
 - The displayed number never goes back up by 1 because of timing jitter.
